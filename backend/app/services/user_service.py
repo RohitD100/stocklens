@@ -5,6 +5,10 @@ def insert_user_service(email: str, name: str, username: str = None) -> dict:
     if settings.db is None:
         raise RuntimeError("Database not connected")
 
+    existing_user = settings.db["users"].find_one({"email": email})
+    if existing_user:
+        raise RuntimeError("User with this email already exists")
+
     user_doc = {
         "email": email,
         "name": name,
@@ -20,4 +24,3 @@ def insert_user_service(email: str, name: str, username: str = None) -> dict:
     created_user.pop("_id", None)
 
     return created_user
-
