@@ -1,9 +1,23 @@
 "use client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
+
+  useEffect(() => {
+    const handleTestApi = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/news");
+        const data = await res.json(); // ✅ properly await JSON parsing
+        console.log(data); // logs { articles: [...] }
+      } catch (er) {
+        console.error(er);
+      }
+    };
+    handleTestApi();
+  }, []);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
