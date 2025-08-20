@@ -9,15 +9,25 @@ export default function Home() {
   useEffect(() => {
     const handleTestApi = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/news");
-        const data = await res.json(); // ✅ properly await JSON parsing
-        console.log(data); // logs { articles: [...] }
+        const tokenRes = await fetch("/api/token");
+        const { accessToken } = await tokenRes.json();
+        const res = await fetch("http://127.0.0.1:8000/news", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const data = await res.json();
+        console.log("Backend response:", data);
       } catch (er) {
         console.error(er);
       }
     };
-    handleTestApi();
-  }, []);
+
+    if (user) {
+      handleTestApi();
+    }
+  }, [user]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
