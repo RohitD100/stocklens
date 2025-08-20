@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -7,6 +7,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     name: Optional[str] = None
     username: str
+    model_config = ConfigDict()  
 
 
 class UserPublic(BaseModel):
@@ -18,8 +19,7 @@ class UserPublic(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        populate_by_name = True
+    model_config = ConfigDict(populate_by_name=True)
 
 
 class UserResponse(BaseModel):
@@ -30,5 +30,4 @@ class UserResponse(BaseModel):
     auth_provider_sub: Optional[str] = None
     created_at: datetime
     updated_at: datetime
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
