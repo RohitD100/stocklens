@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import news, stocks, user
+from app.routes import user_routes
+from app.routes import news_routes, stocks_routes
 
 app = FastAPI(title="StockLens API", version="1.0")
 
@@ -13,6 +14,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(news.router)
-app.include_router(stocks.router)
-app.include_router(user.router)
+app.include_router(news_routes.router)
+app.include_router(stocks_routes.router)
+app.include_router(user_routes.router)
