@@ -11,6 +11,7 @@ export default function Home() {
       try {
         const tokenRes = await fetch("/api/token");
         const { accessToken } = await tokenRes.json();
+        console.log("accessToken :", accessToken);
         const res = await fetch("http://127.0.0.1:8000/news", {
           headers: {
             Authorization: `Bearer ${accessToken}`,

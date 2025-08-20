@@ -28,7 +28,7 @@ def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
         resp = requests.get(
-            f"https://{AUTH0_DOMAIN}/userinfo",
+            f"{AUTH0_DOMAIN}/userinfo",
             headers={"Authorization": f"Bearer {token}"}
         )
 
